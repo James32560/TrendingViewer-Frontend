@@ -14,7 +14,7 @@ export function usePrevious(value) {
 }
 
 function App() {
-  const serverIP = 'http://localhost:8000';
+  const serverIP = 'https://fastapi-backend-k204.onrender.com';
   const [darkMode, setDarkMode] = useState(true);
   const [repos, setRepos] = useState([]);
   const [filterData, setFilterData] = useState({

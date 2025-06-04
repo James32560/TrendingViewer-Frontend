@@ -28,13 +28,10 @@ function StarsChart({ starsHistory }) {
       <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">
         Repository Stars Over Time
       </h2>
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="100%" height={250}>
         <LineChart data={chartData}>
           <XAxis dataKey="date" />
-          <YAxis
-            tickFormatter={(tick) => Math.pow(10, tick).toFixed(0)}
-            domain={['auto', 'auto']}
-          />
+          <YAxis/>
           <Tooltip />
           <Legend />
           {repoNames.map((repo, index) => (
