@@ -6,19 +6,28 @@ import {
 function StarsChart({ starsHistory }) {
   const colors = ['#8884d8', '#82ca9d', '#ffc658', '#ff7300', '#d0ed57', '#a4de6c'];
 
-  const chartData = useMemo(() => {
+  const { chartData, minY, maxY } = useMemo(() => {
     const dateMap = {};
+    let min = Infinity;
+    let max = -Infinity;
 
     for (const [repoName, { dates, stars }] of Object.entries(starsHistory)) {
       dates.forEach((date, i) => {
+        const starCount = stars[i];
         if (!dateMap[date]) {
           dateMap[date] = { date };
         }
-        dateMap[date][repoName] = stars[i];
+        dateMap[date][repoName] = starCount;
+        if (starCount < min) min = starCount;
+        if (starCount > max) max = starCount;
       });
     }
 
-    return Object.values(dateMap).sort((a, b) => new Date(a.date) - new Date(b.date));
+    return {
+      chartData: Object.values(dateMap).sort((a, b) => new Date(a.date) - new Date(b.date)),
+      minY: min,
+      maxY: max
+    };
   }, [starsHistory]);
 
   const repoNames = Object.keys(starsHistory);
@@ -31,7 +40,7 @@ function StarsChart({ starsHistory }) {
       <ResponsiveContainer width="100%" height={250}>
         <LineChart data={chartData}>
           <XAxis dataKey="date" />
-          <YAxis/>
+          <YAxis domain={[minY, maxY]} />
           <Tooltip />
           <Legend />
           {repoNames.map((repo, index) => (
@@ -41,7 +50,7 @@ function StarsChart({ starsHistory }) {
               dataKey={repo}
               stroke={colors[index % colors.length]}
               strokeWidth={2}
-              dot={false}
+              dot={true}
             />
           ))}
         </LineChart>

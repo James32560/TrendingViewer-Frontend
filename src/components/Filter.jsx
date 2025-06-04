@@ -1,6 +1,45 @@
 import React, { useState } from "react";
 
 function Filter({ filterData, setFilterData, handleApplyFilter }) {
+    const languages = [
+        "",
+        "Go",
+        "Python",
+        "TypeScript",
+        "C++",
+        "JavaScript",
+        "MDX",
+        "C#",
+        "Rust",
+        "Markdown",
+        "C",
+        "Java",
+        "HTML",
+        "Jupyter Notebook",
+        "Elixir",
+        "Lua",
+        "PHP",
+        "Roff",
+        "Starlark",
+        "Shell",
+        "Kotlin",
+        "Nix",
+        "Objective-C",
+        "GDScript",
+        "SCSS",
+        "HCL",
+        "Vim Script",
+        "Dart",
+        "Swift",
+        "Zig",
+        "Vue",
+        "Three-sitter Query",
+        "Clojure",
+        "Rich Text Format",
+        "Svelte",
+        "Batchfile",
+    ];
+
     const handleChange = (e) => {
         filterData[e.target.name] = e.target.value;
         setFilterData({ ...filterData });
@@ -14,14 +53,12 @@ function Filter({ filterData, setFilterData, handleApplyFilter }) {
                 className="p-2 rounded-2xl bg-gray-100 dark:bg-gray-700"
                 onChange={handleChange}>
 
-                <option value="">Code Language</option>
-                <option value="JavaScript">JavaScript</option>
-                <option value="Python">Python</option>
-                <option value="Java">Java</option>
-                <option value="C++">C++</option>
-                <option value="TypeScript">TypeScript</option>
-                <option value="Go">Go</option>
-                <option value="Rust">Rust</option>
+                {languages.map(lang => (
+                    <option key={lang} value={lang}>
+                        {lang || "Code Language"}
+                    </option>
+                ))}
+
             </select>
 
             <select
