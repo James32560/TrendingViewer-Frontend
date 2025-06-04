@@ -4,7 +4,6 @@ import { X } from 'lucide-react';
 function CompareList({ compareRepos, onRemove }) {
   return (
     <div className="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-md w-full max-w-xs h-fit">
-      <h3 className="text-lg font-semibold mb-2">Compare List</h3>
       {compareRepos.length === 0 ? (
         <p className="text-sm text-gray-500 dark:text-gray-400">No repositories selected.</p>
       ) : (

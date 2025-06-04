@@ -92,28 +92,36 @@ function App() {
     }
   }, [compareRepos]);
 
+const fetchRepos = async () => {
+  let url = serverIP;
+  try {
+    let params = new URLSearchParams();
+    
+    Object.entries(filterData).forEach(([key, value]) => {
+      if (key !== 'sortBy' && value) params.append(key, value);
+    });
 
-  const fetchRepos = async () => {
-    let url = serverIP;
-    try {
-      let params = new URLSearchParams();
-      Object.entries(filterData).forEach(([key, value]) => {
-        if (value) params.append(key, value);
-      });
-
-      if (params.toString()) {
-        url += `/filter?${params.toString()}`;
-      }
-
-      console.log('Fetching from URL:', url);
-
-      const response = await fetch(url);
-      const data = await response.json();
-      setRepos(data || []);
-    } catch (error) {
-    console.error('Error fetching repos:', error);
+    if (params.toString()) {
+      url += `/filter?${params.toString()}`;
     }
-  };
+
+    console.log('Fetching from URL:', url);
+
+    const response = await fetch(url);
+    let data = await response.json();
+
+    if (filterData.sortBy === 'stars') {
+      data.sort((a, b) => b.totalStars - a.totalStars);
+    } else if (filterData.sortBy === 'forks') {
+      data.sort((a, b) => b.forks - a.forks);
+    }
+
+    setRepos(data || []);
+  } catch (error) {
+    console.error('Error fetching repos:', error);
+  }
+};
+
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300 p-6 text-gray-900 dark:text-gray-100">
